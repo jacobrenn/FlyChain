@@ -1,20 +1,27 @@
 from agent import create_agent
 import gradio as gr
-import time
+import click
 
-agent = create_agent(model = 'gpt-4', chat_history = True)
 
-with gr.Blocks() as demo:
-    chatbot = gr.Chatbot()
-    msg = gr.Textbox()
-    clear = gr.ClearButton([msg, chatbot])
+@click.command()
+@click.option('--model', '-m', default = 'gpt-4')
+@click.option('--history/--no-history', default = True)
+def deploy(model, history)
+    agent = create_agent(model = model, chat_history = history)
 
-    def respond(message, chat_history):
-        bot_message = agent.run(message)
-        chat_history.append((message, bot_message))
-        time.sleep(2)
-        return "", chat_history
+    with gr.Blocks() as demo:
+        chatbot = gr.Chatbot()
+        msg = gr.Textbox()
+        clear = gr.ClearButton([msg, chatbot])
 
-    msg.submit(respond, [msg, chatbot], [msg, chatbot])
+        def respond(message, chat_history):
+            bot_message = agent.run(message)
+            chat_history.append((message, bot_message))
+            return "", chat_history
 
-demo.launch()
+        msg.submit(respond, [msg, chatbot], [msg, chatbot])
+
+    demo.launch()
+
+if __name__ == '__main__':
+    deploy()
