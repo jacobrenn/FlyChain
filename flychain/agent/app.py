@@ -19,10 +19,11 @@ if 'user_input' not in st.session_state:
     st.session_state['user_input'] = ['Hi!']
 
 # Layout of input/response containers
-input_container = st.container()
-colored_header(label='', description='', color_name='blue-30')
-response_container = st.container()
 
+
+response_container = st.container()
+colored_header(label='', description='', color_name='blue-30')
+input_container = st.container()
 # Configure user feedback
 
 #collector = FeedbackCollector()
@@ -40,7 +41,7 @@ with input_container:
 # Response output #
 ## Function for taking user prompt as input followed by producing AI generated responses
 def generate_response(prompt):
-    response = agent(prompt)
+    response = agent.run(prompt)
     return response
 
 ## Conditional display of AI generated responses as a function of user provided prompts

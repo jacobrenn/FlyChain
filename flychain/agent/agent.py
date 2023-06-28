@@ -4,7 +4,7 @@ from utils import get_openai_api_key
 from tools import my_tools
 
 def create_agent(
-        model = 'gpt-3.5-turbo',
+        model = 'text-davinci-003',
         agent_type = AgentType.ZERO_SHOT_REACT_DESCRIPTION,
         tools = my_tools,
         temperature = 0
