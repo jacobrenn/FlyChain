@@ -6,7 +6,7 @@ import click
 @click.command()
 @click.option('--model', '-m', default = 'gpt-4')
 @click.option('--history/--no-history', default = True)
-def deploy(model, history)
+def deploy(model, history):
     agent = create_agent(model = model, chat_history = history)
 
     with gr.Blocks() as demo:
