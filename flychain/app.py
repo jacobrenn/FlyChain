@@ -41,7 +41,10 @@ with input_container:
 # Response output #
 ## Function for taking user prompt as input followed by producing AI generated responses
 def generate_response(prompt):
-    response = agent(prompt)
+    try:
+        response = agent.run(input = prompt)
+    except:
+        response = agent(prompt)
 
     return response
 
