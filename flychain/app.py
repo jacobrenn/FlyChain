@@ -1,12 +1,8 @@
-#import trubrics
 from agent import create_agent
+import gradio as gr
+import time
 
 agent = create_agent(model = 'gpt-4', chat_history = True)
-
-
-import gradio as gr
-import random
-import time
 
 with gr.Blocks() as demo:
     chatbot = gr.Chatbot()
