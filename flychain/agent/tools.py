@@ -1,5 +1,4 @@
-from langchain.agents import tools
-from langchain.agents import tool
+from langchain.agents import tools, tool
 
 # Create your own tools here
 
