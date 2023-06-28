@@ -23,7 +23,6 @@ if 'user_input' not in st.session_state:
 
 # Layout of input/response containers
 
-
 response_container = st.container()
 colored_header(label='', description='', color_name='blue-30')
 input_container = st.container()
