@@ -79,6 +79,7 @@ with response_container:
             if feedback:
                 # Add 'bot_response' to 'feedback'
                 feedback['bot_response'] = st.session_state['bot_response'][i]
+                feedback['user_input'] = st.session_state['user_input'][i]
 
                 # Load the existing data
                 try:
