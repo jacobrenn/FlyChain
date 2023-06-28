@@ -84,7 +84,7 @@ with response_container:
                 try:
                     with open(user_feedback_path, 'r') as file:
                         data = json.load(file)
-                except json.JSONDecodeError:  # if the file is empty, initialize 'data' as an empty list
+                except FileNotFoundError:  # if the file is empty, initialize 'data' as an empty list
                     data = []
 
                 # Append the new feedback with the bot's response
