@@ -6,6 +6,7 @@ from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.add_vertical_space import add_vertical_space
 from agent import create_agent
+import os
 
 
 agent = create_agent(model = 'gpt-4', chat_history = True)
@@ -35,6 +36,8 @@ collector = FeedbackCollector(
     )
 
 user_feedback_path = '../user_feedback/feedback.json'
+if not os.path.exists(os.path.dirname(user_feedback_path)):
+    os.makedirs(os.path.dirname(user_feedback_path))
 
 def get_input():
     input_text = st.text_input("You: ", "", key="input")
@@ -69,7 +72,8 @@ with response_container:
                 feedback_type = 'thumbs',
                 model = 'langchain',
                 open_feedback_label="[Optional] Provide additional feedback",
-                save_to_trubrics = False
+                save_to_trubrics = False,
+                key = str(i)
             )
 
             if feedback:
