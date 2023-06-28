@@ -1,4 +1,4 @@
-from config import APP_FOLDER, OPENAI_KEY_FILE
+from .config import APP_FOLDER, OPENAI_KEY_FILE
 from getpass import getpass
 import os
 
