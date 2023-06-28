@@ -6,7 +6,7 @@ from streamlit_extras.add_vertical_space import add_vertical_space
 from agent import create_agent
 
 
-agent = create_agent()
+agent = create_agent(model = 'gpt-4', chat_history = True)
 
 st.set_page_config(page_title = 'Flychain')
 
@@ -41,7 +41,8 @@ with input_container:
 # Response output #
 ## Function for taking user prompt as input followed by producing AI generated responses
 def generate_response(prompt):
-    response = agent.run(prompt)
+    response = agent(prompt)
+
     return response
 
 ## Conditional display of AI generated responses as a function of user provided prompts
