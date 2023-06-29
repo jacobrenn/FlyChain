@@ -1,8 +1,8 @@
 from langchain.agents import initialize_agent, ZeroShotAgent, AgentExecutor
 from langchain.memory import ConversationBufferMemory
 from langchain.chat_models import ChatOpenAI
-from .utils import get_openai_api_key
 from langchain import OpenAI, LLMChain
+from .utils import get_openai_api_key
 from .tools import my_tools
 
 def create_agent(
