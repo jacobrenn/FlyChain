@@ -6,7 +6,6 @@ from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.add_vertical_space import add_vertical_space
 from agent import create_agent
-import os
 
 
 agent = create_agent()
@@ -23,6 +22,7 @@ if 'user_input' not in st.session_state:
 
 # Layout of input/response containers
 
+
 response_container = st.container()
 colored_header(label='', description='', color_name='blue-30')
 input_container = st.container()
@@ -35,9 +35,8 @@ collector = FeedbackCollector(
     )
 
 user_feedback_path = '../user_feedback/feedback.json'
-if not os.path.exists(os.path.dirname(user_feedback_path)):
-    os.makedirs(os.path.dirname(user_feedback_path))
 
+@st.cache_data(allow_output_mutation=True, suppress_st_warning=True)
 def get_input():
     input_text = st.text_input("You: ", "", key="input")
     return input_text
@@ -47,22 +46,17 @@ with input_container:
 
 # Response output #
 ## Function for taking user prompt as input followed by producing AI generated responses
+
+@st.cache_data(allow_output_mutation=True, suppress_st_warning=True)
 def generate_response(prompt):
-<<<<<<< Updated upstream
     try:
-        response = agent.run(prompt)
+        response = agent.run(input = prompt)
     except:
         response = agent(prompt)
-=======
-    #try:
-        #response = agent.run(input = prompt)
-   # except:
-    response = agent(prompt)
->>>>>>> Stashed changes
-
     return response
 
 ## Conditional display of AI generated responses as a function of user provided prompts
+
 with response_container:
     if user_input:
         response = generate_response(user_input)
@@ -78,20 +72,18 @@ with response_container:
                 feedback_type = 'thumbs',
                 model = 'langchain',
                 open_feedback_label="[Optional] Provide additional feedback",
-                save_to_trubrics = False,
-                key = str(i)
+                save_to_trubrics = False
             )
 
             if feedback:
                 # Add 'bot_response' to 'feedback'
                 feedback['bot_response'] = st.session_state['bot_response'][i]
-                feedback['user_input'] = st.session_state['user_input'][i]
 
                 # Load the existing data
                 try:
                     with open(user_feedback_path, 'r') as file:
                         data = json.load(file)
-                except FileNotFoundError:  # if the file is empty, initialize 'data' as an empty list
+                except json.JSONDecodeError:  # if the file is empty, initialize 'data' as an empty list
                     data = []
 
                 # Append the new feedback with the bot's response
