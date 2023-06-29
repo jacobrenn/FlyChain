@@ -1,15 +1,20 @@
 from langchain.agents import initialize_agent, ZeroShotAgent, AgentExecutor
+from langchain import OpenAI, LLMChain, HuggingFacePipeline
 from langchain.memory import ConversationBufferMemory
 from langchain.chat_models import ChatOpenAI
+from transformers import pipeline
+
 from .utils import get_openai_api_key
-from langchain import OpenAI, LLMChain
 from .tools import my_tools
 
 def create_agent(
         model = 'text-davinci-003',
         tools = my_tools,
         temperature = 0,
-        chat_history = False
+        chat_history = False,
+        task = 'text-generation',
+        huggingface_pipeline_kwargs = None,
+        huggingface_model_kwargs = None
 ):
     
     # Initiate regular model if not davinci
@@ -19,6 +24,15 @@ def create_agent(
     # Initiate chat model if not davinci
     elif model in ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4']:
         llm = ChatOpenAI(model_name = model, openai_api_key = get_openai_api_key(), temperature = temperature)
+
+    # Else, try to instantiate the model using the pipeline interface
+    else:
+        llm = HuggingFacePipeline.from_model_id(
+            model_id = model,
+            task = task,
+            model_kwargs = huggingface_model_kwargs,
+            pipeline_kwargs = huggingface_pipeline_kwargs
+        )
 
     if chat_history:
         prefix = """Have a conversation with a human, answering the following questions as best you can. You have access to the following tools:"""
